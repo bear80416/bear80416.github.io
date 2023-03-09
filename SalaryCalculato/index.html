@@ -39,6 +39,10 @@
                             <input type="number" v-model="raisePercent" class="form-control" />
                         </div>
                         <div class="form-group col-12 col-md-6">
+                            <label>年薪月數:</label>
+                            <input type="number" v-model="yearSalary" class="form-control" />
+                        </div>
+                        <div class="form-group col-12 col-md-6">
                             <label>每月生活費預定:</label>
                             <input type="number" v-model="monthlyCost" class="form-control" />
                         </div>
@@ -96,6 +100,7 @@
                 return {
                     seniority: 0,
                     salary: 0,
+                    yearSalary: 12,
                     raisePercent: 0,
                     savingsPercent: 0,
                     monthlyCost: 0,
@@ -129,7 +134,7 @@
                     let yearlyStock = 0;
                     for (let i = 1; i <= this.seniority; i++) {
                         this.salary += this.salary * this.raise;
-                        const yearlySalary = this.salary * 13.5;
+                        const yearlySalary = this.salary * this.yearSalary;
                         yearlySavings += this.savings * 12;
                         yearlyStock += (this.stock * 12) + (yearlyStock * this.bonus);
                         const yearlySalaryObj = {
