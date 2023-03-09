@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group col-12 col-md-6">
                             <label>年薪月數:</label>
-                            <input type="number" v-model="yearSalary" class="form-control" />
+                            <input type="text" v-model="yearSalary" class="form-control" />
                         </div>
                         <div class="form-group col-12 col-md-6">
                             <label>每月生活費預定:</label>
@@ -62,15 +62,15 @@
                 </div>
                 <div class="card-footer">
                     <div class="row justify-content-center">
-                        <button v-if="!showTable" @click="calculate" class="btn btn-light">計算</button>
-                        <button v-else="showTable" @click="reset" class="btn btn-secondary ml-auto">重新計算</button>
+                        <button @click="calculate" class="btn btn-light">計算</button>
+                        <button v-if="showTable" @click="reset" class="btn btn-secondary ml-auto">重新計算</button>
                     </div>
                 </div>
             </div>
             <table v-if="showTable" class="table table-striped mt-3">
                 <thead class="bg-light">
                     <tr>
-                        <th>年度</th>
+                        <th>年資</th>
                         <th>月薪</th>
                         <th>年薪</th>
                         <th>儲蓄金額</th>
@@ -132,14 +132,17 @@
                     this.yearlySalaries = [];
                     let yearlySavings = 0;
                     let yearlyStock = 0;
-                    for (let i = 1; i <= this.seniority; i++) {
-                        this.salary += this.salary * this.raise;
-                        const yearlySalary = this.salary * this.yearSalary;
+                    let tmpSaraly = this.salary;
+                    for (let i = 0; i <= this.seniority; i++) {
+                        if(i != 0){
+                            tmpSaraly += tmpSaraly * this.raise;
+                        }
+                        const yearlySalary = tmpSaraly * this.yearSalary;
                         yearlySavings += this.savings * 12;
                         yearlyStock += (this.stock * 12) + (yearlyStock * this.bonus);
                         const yearlySalaryObj = {
                             year: i,
-                            salary: this.salary.toFixed(2),
+                            salary: tmpSaraly.toFixed(2),
                             yearlySalary: yearlySalary.toFixed(2),
                             yearlySavings: yearlySavings.toFixed(2),
                             yearlyStock: yearlyStock.toFixed(2),
